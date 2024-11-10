@@ -37,7 +37,7 @@
 	},
 	"dependencies": {
 		"@hugoalh/http-header-link": "1.0.2",
-		"@hugoalh/http-header-retry-after": "1.0.1"
+		"@hugoalh/http-header-retry-after": "1.1.0"
 	},
 	"devDependencies": {
 		"@types/node": "22.1.0",
