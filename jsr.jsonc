@@ -1,13 +1,13 @@
 {
 	"$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
 	"name": "@hugoalh/exfetch",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"exports": {
 		".": "./mod.ts"
 	},
 	"imports": {
-		"https://raw.githubusercontent.com/hugoalh-studio/http-header-link-es/v1.0.2/mod.ts": "jsr:@hugoalh/http-header-link@1.0.2",
-		"https://raw.githubusercontent.com/hugoalh-studio/http-header-retry-after-es/v1.0.1/mod.ts": "jsr:@hugoalh/http-header-retry-after@1.0.1"
+		"https://raw.githubusercontent.com/hugoalh/http-header-link-es/v1.0.3/mod.ts": "jsr:@hugoalh/http-header-link@^1.0.3",
+		"https://raw.githubusercontent.com/hugoalh/http-header-retry-after-es/v1.1.0/mod.ts": "jsr:@hugoalh/http-header-retry-after@^1.1.0"
 	},
 	"publish": {
 		"exclude": [
@@ -23,8 +23,8 @@
 			"**/bench.tsx",
 			"**/test.ts",
 			"**/test.tsx",
-			".dnt.ts",
-			"npm/**"
+			"npm/**",
+			".dnt.ts"
 		],
 		"include": [
 			"**/*.json",

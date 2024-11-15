@@ -1,6 +1,9 @@
 import { randomInt } from "node:crypto";
-import { HTTPHeaderLink, type HTTPHeaderLinkEntry } from "https://raw.githubusercontent.com/hugoalh-studio/http-header-link-es/v1.0.2/mod.ts";
-import { HTTPHeaderRetryAfter } from "https://raw.githubusercontent.com/hugoalh-studio/http-header-retry-after-es/v1.0.1/mod.ts";
+import {
+	HTTPHeaderLink,
+	type HTTPHeaderLinkEntry
+} from "https://raw.githubusercontent.com/hugoalh/http-header-link-es/v1.0.3/mod.ts";
+import { HTTPHeaderRetryAfter } from "https://raw.githubusercontent.com/hugoalh/http-header-retry-after-es/v1.1.0/mod.ts";
 import { slug } from "./_slug.ts";
 const httpStatusCodesRedirectable: Set<number> = new Set<number>([
 	301,
@@ -23,7 +26,7 @@ const httpStatusCodesRetryable: Set<number> = new Set<number>([
 /**
  * exFetch default user agent.
  */
-export const userAgentDefault: string = `${slug} exFetch/0.5.1`;
+export const userAgentDefault: string = `${slug} exFetch/0.6.0`;
 /**
  * exFetch delay options.
  */
@@ -36,16 +39,8 @@ export interface ExFetchDelayOptions {
 	 * Minimum time per delay, by milliseconds.
 	 */
 	minimum?: number;
-	/**
-	 * Maximum time per delay, by milliseconds. Alias of {@linkcode maximum}.
-	 */
-	max?: this["maximum"];
-	/**
-	 * Minimum time per delay, by milliseconds. Alias of {@linkcode minimum}.
-	 */
-	min?: this["minimum"];
 }
-type ExFetchDelayOptionsInternal = Required<Omit<ExFetchDelayOptions, "max" | "min">>;
+type ExFetchDelayOptionsInternal = Required<ExFetchDelayOptions>;
 /**
  * exFetch event common payload.
  */
@@ -236,22 +231,20 @@ interface ExFetchRetryOptionsInternal extends Required<Omit<ExFetchRetryOptions,
  */
 export interface ExFetchOptions {
 	/**
-	 * **\[🧪 EXPERIMENTAL\]** Whether to cache suitable `Request`-`Response`s.
+	 * **\[🧪 Experimental\]** Whether to cache suitable `Request`-`Response`s.
 	 * 
 	 * - `false`: Disable cache.
 	 * - `true`: Enable cache with default name, manage automatically.
 	 * - `<string>`: Enable cache with custom name, manage automatically.
 	 * - `<Cache>`: Enable cache, manage manually.
-	 * @default false
+	 * @default {false}
 	 */
 	cacheStorage?: boolean | string | Cache;
 	/**
 	 * Custom HTTP status codes that retryable.
 	 * 
-	 * > **⚠️ Warning**
-	 * >
-	 * > This will override the default when defined; To add and/or delete some of the HTTP status codes, use methods {@linkcode ExFetch.addHTTPStatusCodeRetryable} and/or {@linkcode ExFetch.deleteHTTPStatusCodeRetryable} instead.
-	 * @default undefined
+	 * This will override the default when defined; To add or delete some of the HTTP status codes, use methods {@linkcode ExFetch.addHTTPStatusCodeRetryable} or {@linkcode ExFetch.deleteHTTPStatusCodeRetryable} instead.
+	 * @default {undefined}
 	 */
 	httpStatusCodesRetryable?: number[] | Set<number>;
 	/**
@@ -277,14 +270,6 @@ export interface ExFetchOptions {
 	 */
 	userAgent?: string;
 }
-/**
- * Resolve delay options.
- * @access private
- * @param {string} parameterName Name of the parameter.
- * @param {number | ExFetchDelayOptions} input
- * @param {ExFetchDelayOptionsInternal} original
- * @returns {ExFetchDelayOptionsInternal}
- */
 function resolveDelayOptions(parameterName: string, input: number | ExFetchDelayOptions, original: ExFetchDelayOptionsInternal): ExFetchDelayOptionsInternal {
 	if (typeof input === "number") {
 		if (!(Number.isSafeInteger(input) && input >= 0)) {
@@ -295,8 +280,6 @@ function resolveDelayOptions(parameterName: string, input: number | ExFetchDelay
 			minimum: input
 		};
 	}
-	input.maximum ??= input.max;
-	input.minimum ??= input.min;
 	const optionsResolve: ExFetchDelayOptionsInternal = { ...original };
 	if (typeof input.maximum !== "undefined") {
 		if (!(Number.isSafeInteger(input.maximum) && input.maximum >= 0)) {
@@ -315,13 +298,10 @@ function resolveDelayOptions(parameterName: string, input: number | ExFetchDelay
 	}
 	return optionsResolve;
 }
-/**
- * Resolve delay time.
- * @access private
- * @param {ExFetchDelayOptionsInternal} param
- * @returns {number} Delay time.
- */
-function resolveDelayTime({ maximum, minimum }: ExFetchDelayOptionsInternal): number {
+function resolveDelayTime({
+	maximum,
+	minimum
+}: ExFetchDelayOptionsInternal): number {
 	if (maximum === minimum) {
 		return maximum;
 	}
@@ -329,7 +309,6 @@ function resolveDelayTime({ maximum, minimum }: ExFetchDelayOptionsInternal): nu
 }
 /**
  * Start a `Promise` based delay with `AbortSignal`.
- * @access private
  * @param {number} value Time of the delay, by milliseconds. `0` means execute "immediately", or more accurately, the next event cycle.
  * @param {AbortSignal} [signal] A signal object that allow to communicate with a DOM request and abort it if required via an `AbortController` object.
  * @returns {Promise<void>}
@@ -481,12 +460,7 @@ export class ExFetch {
 		}
 		this.#userAgent = options.userAgent ?? userAgentDefault;
 	}
-	/**
-	 * Correctly load cache storage.
-	 * @access private
-	 * @returns {Promise<void>}
-	 */
-	async #cacheStorageLoad(): Promise<void> {
+	async #loadCacheStorage(): Promise<void> {
 		if (typeof this.#cacheStorageDefer !== "undefined") {
 			this.#cacheStorage = await this.#cacheStorageDefer;
 			this.#cacheStorageDefer = undefined;
@@ -494,48 +468,22 @@ export class ExFetch {
 	}
 	/**
 	 * Add HTTP status code that retryable.
-	 * @param {number} value Value.
-	 * @returns {this}
-	 */
-	addHTTPStatusCodeRetryable(value: number): this;
-	/**
-	 * Add HTTP status code that retryable.
-	 * @param {number[]} values Values.
-	 * @returns {this}
-	 */
-	addHTTPStatusCodeRetryable(values: number[]): this;
-	/**
-	 * Add HTTP status code that retryable.
 	 * @param {...number} values Values.
 	 * @returns {this}
 	 */
-	addHTTPStatusCodeRetryable(...values: number[]): this;
-	addHTTPStatusCodeRetryable(...values: number[] | [number[]]): this {
-		for (const value of values.flat()) {
+	addHTTPStatusCodeRetryable(...values: number[]): this {
+		for (const value of values) {
 			this.#httpStatusCodesRetryable.add(value);
 		}
 		return this;
 	}
 	/**
 	 * Delete HTTP status code that not retryable.
-	 * @param {number} value Value.
-	 * @returns {this}
-	 */
-	deleteHTTPStatusCodeRetryable(value: number): this;
-	/**
-	 * Delete HTTP status code that not retryable.
-	 * @param {number[]} values Values.
-	 * @returns {this}
-	 */
-	deleteHTTPStatusCodeRetryable(values: number[]): this;
-	/**
-	 * Delete HTTP status code that not retryable.
 	 * @param {...number} values Values.
 	 * @returns {this}
 	 */
-	deleteHTTPStatusCodeRetryable(...values: number[]): this;
-	deleteHTTPStatusCodeRetryable(...values: number[] | [number[]]): this {
-		for (const value of values.flat()) {
+	deleteHTTPStatusCodeRetryable(...values: number[]): this {
+		for (const value of values) {
 			this.#httpStatusCodesRetryable.delete(value);
 		}
 		return this;
@@ -575,7 +523,7 @@ export class ExFetch {
 		});
 		let responseCached: Response | undefined = undefined;
 		if (requestCacheControl && requestCacheOption !== "reload") {
-			await this.#cacheStorageLoad();
+			await this.#loadCacheStorage();
 			responseCached = await this.#cacheStorage?.match(requestFuzzy).catch();
 		}
 		if (requestCacheOption === "force-cache" && typeof responseCached !== "undefined") {
@@ -678,7 +626,7 @@ export class ExFetch {
 			response.headers.has("ETag") ||
 			response.headers.has("Last-Modified")
 		)) {
-			await this.#cacheStorageLoad();
+			await this.#loadCacheStorage();
 			this.#cacheStorage?.put(requestFuzzy, response).catch();
 		}
 		return response;
@@ -726,7 +674,7 @@ export class ExFetch {
 					responseHeaderLink = HTTPHeaderLink.parse(response);
 				} catch (error) {
 					if (options.throwOnInvalidHeaderLink) {
-						throw new SyntaxError(`[${uriLookUp.toString()}] ${error?.message ?? error}`);
+						throw new SyntaxError(`[${uriLookUp.toString()}] ${(error as Error)?.message ?? error}`);
 					}
 				}
 				if (typeof responseHeaderLink! !== "undefined") {
@@ -738,42 +686,6 @@ export class ExFetch {
 			}
 		}
 		return responses;
-	}
-	/**
-	 * Fetch a resource from the network.
-	 * 
-	 * > **🛡️ Permissions**
-	 * >
-	 * > | **Target** | **Type** | **Coverage** |
-	 * > |:--|:--|:--|
-	 * > | Deno | Network (`allow-net`) | Resource |
-	 * @param {string | URL} input URL of the resource.
-	 * @param {RequestInit} init Custom setting that apply to the request.
-	 * @param {ExFetchOptions} [options={}] Options.
-	 * @returns {Promise<Response>} Response.
-	 */
-	static fetch(input: string | URL, init?: RequestInit, options: ExFetchOptions = {}): Promise<Response> {
-		return new this(options).fetch(input, init);
-	}
-	/**
-	 * Fetch paginate resources from the network.
-	 * 
-	 * > **⚠️ Important**
-	 * >
-	 * > Support URL paginate only.
-	 * 
-	 * > **🛡️ Permissions**
-	 * >
-	 * > | **Target** | **Type** | **Coverage** |
-	 * > |:--|:--|:--|
-	 * > | Deno | Network (`allow-net`) | Resource |
-	 * @param {string | URL} input URL of the first page of the resources.
-	 * @param {RequestInit} init Custom setting that apply to each request.
-	 * @param {ExFetchOptions} [options={}] Options.
-	 * @returns {Promise<Response[]>} Responses.
-	 */
-	static fetchPaginate(input: string | URL, init?: RequestInit, options: ExFetchOptions = {}): Promise<Response[]> {
-		return new this(options).fetchPaginate(input, init);
 	}
 }
 export default ExFetch;

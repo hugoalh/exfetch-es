@@ -1,5 +1,5 @@
 import { assert } from "STD/assert/assert";
-import { assertEquals } from "STD/assert/assert-equals";
+import { assertEquals } from "STD/assert/equals";
 import { ExFetch } from "./mod.ts";
 Deno.test("Mono 1", {
 	permissions: {
