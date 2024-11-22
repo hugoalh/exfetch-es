@@ -66,7 +66,7 @@ An ES (JavaScript & TypeScript) module to extend `fetch`.
   - Network (`net`)
     - *Resources*
 
-## 🧩 APIs (Excerpt)
+## 🧩 APIs
 
 - ```ts
   class ExFetch {
