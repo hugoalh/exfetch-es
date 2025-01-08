@@ -60,19 +60,16 @@ An ES (JavaScript & TypeScript) module to extend `fetch`.
 > - For usage of JSR or NPM resources, it is recommended to import the entire module with the main entrypoint, however it is also able to import part of the module with sub entrypoint if available, please visit the [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub entrypoints.
 > - It is recommended to use this module with tag for immutability.
 
-### 🛡️ Require Runtime Permissions
+### 🛡️ Runtime Permissions
 
-- [Deno](https://docs.deno.com/runtime/fundamentals/security/)
-  - Network (`net`)
-    - *Resources*
+- Network \[Deno: `net`\]
+  - *Resources*
 
 ## 🧩 APIs
 
 - ```ts
   class ExFetch {
     constructor(options: ExFetchOptions = {});
-    addHTTPStatusCodeRetryable(...values: number[]): this;
-    deleteHTTPStatusCodeRetryable(...values: number[]): this;
     fetch(input: string | URL, init?: RequestInit): Promise<Response>;
     fetchPaginate(input: string | URL, init?: RequestInit, optionsOverride: ExFetchPaginateOptions = {}): Promise<Response[]>;
   }

@@ -4,7 +4,7 @@ import {
 	type HTTPHeaderLinkEntry
 } from "https://raw.githubusercontent.com/hugoalh/http-header-link-es/v1.0.3/mod.ts";
 import { HTTPHeaderRetryAfter } from "https://raw.githubusercontent.com/hugoalh/http-header-retry-after-es/v1.1.0/mod.ts";
-import { slug } from "./_slug.ts";
+import { slug } from "./_slug_deno.ts";
 const httpStatusCodesRedirectable: Set<number> = new Set<number>([
 	301,
 	302,
