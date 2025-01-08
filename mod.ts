@@ -147,7 +147,7 @@ export interface ExFetchPaginateOptions {
 	linkUpNextPage?(param: ExFetchPaginateLinkUpPayload): URL | null | undefined;
 	/**
 	 * Maximum amount of paginates to allow.
-	 * @default Infinity // Unlimited
+	 * @default {Infinity}
 	 */
 	maximum?: number;
 	/**
@@ -157,8 +157,8 @@ export interface ExFetchPaginateOptions {
 	 */
 	onEvent?(param: ExFetchEventPaginatePayload): void;
 	/**
-	 * Whether to throw an error when the latest page response provide an invalid HTTP header `Link`.
-	 * @default true
+	 * Whether to throw error when the response provide an invalid HTTP header `Link`.
+	 * @default {true}
 	 */
 	throwOnInvalidHeaderLink?: boolean;
 }
@@ -174,12 +174,12 @@ interface ExFetchPaginateOptionsInternal extends Required<Omit<ExFetchPaginateOp
 export interface ExFetchRedirectOptions {
 	/**
 	 * Amount of time to delay between the redirects, by milliseconds.
-	 * @default 0
+	 * @default {0}
 	 */
 	delay?: number | ExFetchDelayOptions;
 	/**
 	 * Maximum amount of redirects to allow.
-	 * @default Infinity
+	 * @default {Infinity}
 	 */
 	maximum?: number;
 	/**
@@ -210,7 +210,7 @@ export interface ExFetchRetryOptions {
 	delay?: number | ExFetchDelayOptions;
 	/**
 	 * Maximum amount of attempts to allow.
-	 * @default 4
+	 * @default {4}
 	 */
 	maximum?: number;
 	/**
@@ -231,11 +231,11 @@ interface ExFetchRetryOptionsInternal extends Required<Omit<ExFetchRetryOptions,
  */
 export interface ExFetchOptions {
 	/**
-	 * **\[🧪 Experimental\]** Whether to cache suitable `Request`-`Response`s.
+	 * Whether to cache suitable `Request`-`Response`s.
 	 * 
 	 * - `false`: Disable cache.
 	 * - `true`: Enable cache with default name, manage automatically.
-	 * - `<string>`: Enable cache with custom name, manage automatically.
+	 * - `<string>`: Enable cache with specify name, manage automatically.
 	 * - `<Cache>`: Enable cache, manage manually.
 	 * @default {false}
 	 */
@@ -252,7 +252,7 @@ export interface ExFetchOptions {
 	 */
 	paginate?: ExFetchPaginateOptions;
 	/**
-	 * Redirect options. This only apply when define property `redirect` as `"follow"` in the request, and define property `maximum` in this option.
+	 * Redirect options; Only apply when the request property {@linkcode RequestInit.redirect} is `"follow"` and option property {@linkcode ExFetchRedirectOptions.maximum} is defined.
 	 */
 	redirect?: ExFetchRedirectOptions;
 	/**
@@ -260,13 +260,12 @@ export interface ExFetchOptions {
 	 */
 	retry?: ExFetchRetryOptions;
 	/**
-	 * Timeout of the request (include the redirects and the retries), by milliseconds. This only apply when have not define property `signal` in the request.
-	 * @default Infinity // Disable
+	 * Timeout of the request (include the redirects and the retries), in milliseconds.
+	 * @default {Infinity}
 	 */
 	timeout?: number;
 	/**
-	 * Custom user agent. This only apply when have not define HTTP header `User-Agent` in the request.
-	 * @default `${RuntimeSlug} exFetch/${ExFetchVersion}`.
+	 * Customize user agent; Only apply when the request property {@linkcode RequestInit.headers.["User-Agent"]} is not defined.
 	 */
 	userAgent?: string;
 }
@@ -335,12 +334,6 @@ function setDelay(value: number, signal?: AbortSignal): Promise<void> {
 }
 /**
  * Extend `fetch`.
- * 
- * > **🛡️ Permissions**
- * >
- * > | **Target** | **Type** | **Coverage** |
- * > |:--|:--|:--|
- * > | Deno | Network (`allow-net`) | Resource |
  */
 export class ExFetch {
 	#cacheStorage?: Cache;
@@ -410,12 +403,6 @@ export class ExFetch {
 	}
 	/**
 	 * Create a new extend `fetch` instance.
-	 * 
-	 * > **🛡️ Permissions**
-	 * >
-	 * > | **Target** | **Type** | **Coverage** |
-	 * > |:--|:--|:--|
-	 * > | Deno | Network (`allow-net`) | Resource |
 	 * @param {ExFetchOptions} [options={}] Options.
 	 */
 	constructor(options: ExFetchOptions = {}) {
@@ -491,11 +478,10 @@ export class ExFetch {
 	/**
 	 * Fetch a resource from the network with extend features.
 	 * 
-	 * > **🛡️ Permissions**
-	 * >
-	 * > | **Target** | **Type** | **Coverage** |
-	 * > |:--|:--|:--|
-	 * > | Deno | Network (`allow-net`) | Resource |
+	 * > **🛡️ Runtime Permissions**
+	 * > 
+	 * > - Network \[Deno: `net`\]
+	 * >   - *Resources*
 	 * @param {string | URL} input URL of the resource.
 	 * @param {RequestInit} [init] Custom setting that apply to the request.
 	 * @returns {Promise<Response>} Response.
@@ -557,8 +543,8 @@ export class ExFetch {
 			redirect: requestRedirectControl ? "manual" : init?.redirect,
 			signal: requestSignal
 		};
-		let redirects = 0;
-		let retries = 0;
+		let redirects: number = 0;
+		let retries: number = 0;
 		let response: Response;
 		do {
 			response = await fetch(requestFetchInput, requestFetchInit);
@@ -632,17 +618,12 @@ export class ExFetch {
 		return response;
 	}
 	/**
-	 * Fetch paginate resources from the network.
+	 * Fetch URL paginate resources from the network.
 	 * 
-	 * > **⚠️ Important**
-	 * >
-	 * > Support URL paginate only.
-	 * 
-	 * > **🛡️ Permissions**
-	 * >
-	 * > | **Target** | **Type** | **Coverage** |
-	 * > |:--|:--|:--|
-	 * > | Deno | Network (`allow-net`) | Resource |
+	 * > **🛡️ Runtime Permissions**
+	 * > 
+	 * > - Network \[Deno: `net`\]
+	 * >   - *Resources*
 	 * @param {string | URL} input URL of the first page of the resources.
 	 * @param {RequestInit} init Custom setting that apply to each request.
 	 * @param {ExFetchPaginateOptions} [optionsOverride={}] Options.
@@ -692,11 +673,10 @@ export default ExFetch;
 /**
  * Fetch a resource from the network.
  * 
- * > **🛡️ Permissions**
- * >
- * > | **Target** | **Type** | **Coverage** |
- * > |:--|:--|:--|
- * > | Deno | Network (`allow-net`) | Resource |
+ * > **🛡️ Runtime Permissions**
+ * > 
+ * > - Network \[Deno: `net`\]
+ * >   - *Resources*
  * @param {string | URL} input URL of the resource.
  * @param {RequestInit} init Custom setting that apply to the request.
  * @param {ExFetchOptions} [options={}] Options.
@@ -706,17 +686,12 @@ export function exFetch(input: string | URL, init?: RequestInit, options: ExFetc
 	return new ExFetch(options).fetch(input, init);
 }
 /**
- * Fetch paginate resources from the network.
+ * Fetch URL paginate resources from the network.
  * 
- * > **⚠️ Important**
- * >
- * > Support URL paginate only.
- * 
- * > **🛡️ Permissions**
- * >
- * > | **Target** | **Type** | **Coverage** |
- * > |:--|:--|:--|
- * > | Deno | Network (`allow-net`) | Resource |
+ * > **🛡️ Runtime Permissions**
+ * > 
+ * > - Network \[Deno: `net`\]
+ * >   - *Resources*
  * @param {string | URL} input URL of the first page of the resources.
  * @param {RequestInit} init Custom setting that apply to each request.
  * @param {ExFetchOptions} [options={}] Options.
