@@ -17,5 +17,6 @@ Deno.test("URLPaginate 1", {
 		return response.json();
 	}));
 	console.log(result);
-	console.log(result.length);
+	console.log(`Result Length: ${result.length}`);
+	console.log(`Result Flat Length: ${result.flat().length}`);
 });
