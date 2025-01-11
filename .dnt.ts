@@ -11,7 +11,6 @@ await invokeDenoNodeJSTransformer({
 	entrypoints: configJSR.getExports(),
 	generateDeclarationMap: true,
 	mappings: {
-		"./_slug_deno.ts": "./_slug_node.ts",
 		"https://raw.githubusercontent.com/hugoalh/http-header-link-es/v1.0.3/mod.ts": {
 			name: "@hugoalh/http-header-link",
 			version: "^1.0.3"

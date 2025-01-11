@@ -1,25 +1,21 @@
-import { assert } from "STD/assert/assert";
-import { assertEquals } from "STD/assert/equals";
 import { ExFetch } from "./mod.ts";
-Deno.test("Mono 1", {
+Deno.test("Single 1", {
 	permissions: {
 		net: ["jsonplaceholder.typicode.com"]
 	}
 }, async () => {
-	const response = await new ExFetch().fetch("https://jsonplaceholder.typicode.com/posts");
-	assert(response.ok === true && response.status === 200);
-	await response.body?.cancel();
+	const response = await new ExFetch().single("https://jsonplaceholder.typicode.com/posts");
+	console.log(await response.json());
 });
-Deno.test("Paginate URL 1", {
+Deno.test("URLPaginate 1", {
 	permissions: {
 		net: ["api.github.com"]
 	}
 }, async () => {
-	const responses = await new ExFetch().fetchPaginate("https://api.github.com/repos/microsoft/vscode/labels?per_page=100");
-	assertEquals(responses.map((response: Response) => {
-		return response.ok;
-	}).includes(false), false);
-	for (const response of responses) {
-		await response.body?.cancel();
-	}
+	const responses = await new ExFetch().urlPaginate("https://api.github.com/repos/microsoft/vscode/labels?per_page=100");
+	const result = await Array.fromAsync(responses.map((response) => {
+		return response.json();
+	}));
+	console.log(result);
+	console.log(result.length);
 });

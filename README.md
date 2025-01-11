@@ -69,92 +69,16 @@ An ES (JavaScript & TypeScript) module to extend `fetch`.
 
 - ```ts
   class ExFetch {
-    constructor(options: ExFetchOptions = {});
-    fetch(input: string | URL, init?: RequestInit): Promise<Response>;
-    fetchPaginate(input: string | URL, init?: RequestInit, optionsOverride: ExFetchPaginateOptions = {}): Promise<Response[]>;
+    constructor(options?: ExFetchOptions);
+    single(input: string | URL, init?: RequestInit): Promise<Response>;
+    urlPaginate(input: string | URL, init?: RequestInit): Promise<Response[]>;
   }
   ```
 - ```ts
-  function exFetch(input: string | URL, init?: RequestInit, options: ExFetchOptions = {}): Promise<Response>;
+  function exFetch(input: string | URL, init?: RequestInit, options?: ExFetchOptions): Promise<Response>;
   ```
 - ```ts
-  function exFetchPaginate(input: string | URL, init?: RequestInit, options: ExFetchOptions = {}): Promise<Response[]>;
-  ```
-- ```ts
-  interface ExFetchDelayOptions {
-    maximum?: number;
-    minimum?: number;
-  }
-  ```
-- ```ts
-  interface ExFetchEventCommonPayload {
-    statusCode: Response["status"];
-    statusText: Response["statusText"];
-  }
-  ```
-- ```ts
-  interface ExFetchEventPaginatePayload {
-    countCurrent: number;
-    countMaximum: number;
-    paginateAfter: number;
-    paginateURL: URL;
-  }
-  ```
-- ```ts
-  interface ExFetchEventRedirectPayload extends ExFetchEventCommonPayload {
-    countCurrent: number;
-    countMaximum: number;
-    redirectAfter: number;
-    redirectURL: URL;
-  }
-  ```
-- ```ts
-  interface ExFetchEventRetryPayload extends ExFetchEventCommonPayload {
-    countCurrent: number;
-    countMaximum: number;
-    retryAfter: number;
-    retryURL: URL;
-  }
-  ```
-- ```ts
-  interface ExFetchOptions {
-    cacheStorage?: boolean | string | Cache;
-    httpStatusCodesRetryable?: number[] | Set<number>;
-    paginate?: ExFetchPaginateOptions;
-    redirect?: ExFetchRedirectOptions;
-    retry?: ExFetchRetryOptions;
-    timeout?: number;
-    userAgent?: string;
-  }
-  ```
-- ```ts
-  interface ExFetchPaginateLinkUpPayload {
-    currentHeaderLink: HTTPHeaderLink;
-    currentURL: URL;
-  }
-  ```
-- ```ts
-  interface ExFetchPaginateOptions {
-    delay?: number | ExFetchDelayOptions;
-    linkUpNextPage?(param: ExFetchPaginateLinkUpPayload): URL | null | undefined;
-    maximum?: number;
-    onEvent?(param: ExFetchEventPaginatePayload): void;
-    throwOnInvalidHeaderLink?: boolean;
-  }
-  ```
-- ```ts
-  interface ExFetchRedirectOptions {
-    delay?: number | ExFetchDelayOptions;
-    maximum?: number;
-    onEvent?(param: ExFetchEventRedirectPayload): void;
-  }
-  ```
-- ```ts
-  interface ExFetchRetryOptions {
-    delay?: number | ExFetchDelayOptions;
-    maximum?: number;
-    onEvent?(param: ExFetchEventRetryPayload): void;
-  }
+  function exFetchURLPaginate(input: string | URL, init?: RequestInit, options?: ExFetchOptions): Promise<Response[]>;
   ```
 
 > [!NOTE]
@@ -166,7 +90,7 @@ An ES (JavaScript & TypeScript) module to extend `fetch`.
 ## ✍️ Examples
 
 - ```ts
-  const responses: Response[] = await exFetchPaginate("https://api.github.com/repos/microsoft/vscode/labels?per_page=100");
+  const responses: Response[] = await exFetchURLPaginate("https://api.github.com/repos/microsoft/vscode/labels?per_page=100");
 
   responses.map((response: Response) => {
     return response.ok;
