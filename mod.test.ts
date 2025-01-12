@@ -12,7 +12,18 @@ Deno.test("URLPaginate 1", {
 		net: ["api.github.com"]
 	}
 }, async () => {
-	const responses = await new ExFetch().urlPaginate("https://api.github.com/repos/microsoft/vscode/labels?per_page=100");
+	const responses = await new ExFetch({
+		paginate: {
+			onURLPaginate({
+				countCurrent,
+				countMaximum,
+				timeWait,
+				urlNext
+			}) {
+				console.debug(`Fetching #${countCurrent}/${countMaximum} after ${timeWait / 1000} seconds via ${urlNext}.`);
+			}
+		}
+	}).urlPaginate("https://api.github.com/repos/microsoft/vscode/labels?per_page=100");
 	const result = await Array.fromAsync(responses.map((response) => {
 		return response.json();
 	}));
