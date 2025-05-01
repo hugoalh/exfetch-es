@@ -7,7 +7,7 @@
 [![JSR: @hugoalh/exfetch](https://img.shields.io/jsr/v/@hugoalh/exfetch?label=@hugoalh/exfetch&labelColor=F7DF1E&logo=jsr&logoColor=000000&style=flat "JSR: @hugoalh/exfetch")](https://jsr.io/@hugoalh/exfetch)
 [![NPM: @hugoalh/exfetch](https://img.shields.io/npm/v/@hugoalh/exfetch?label=@hugoalh/exfetch&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/exfetch")](https://www.npmjs.com/package/@hugoalh/exfetch)
 
-An ES (JavaScript & TypeScript) module to extend `fetch`.
+An ECMAScript (JavaScript & TypeScript) module to extend `fetch`.
 
 ## 🌟 Features
 
