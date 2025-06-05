@@ -1,6 +1,6 @@
 import { HTTPHeaderLink } from "https://raw.githubusercontent.com/hugoalh/http-header-link-es/v1.0.3/mod.ts";
 import { HTTPHeaderRetryAfter } from "https://raw.githubusercontent.com/hugoalh/http-header-retry-after-es/v1.1.0/mod.ts";
-const userAgentExFetch: string = `exFetch/0.6.0`;
+const userAgentExFetch: string = `exFetch/0.6`;
 /**
  * exFetch redirect event payload.
  */

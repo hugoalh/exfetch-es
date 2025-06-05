@@ -2,7 +2,6 @@
 
 [**⚖️** MIT](./LICENSE.md)
 
-[![Deno Land: exfetch](https://img.shields.io/badge/dynamic/json?label=exfetch&labelColor=000000&logo=deno&logoColor=ffffff&style=flat&url=https%3A%2F%2Fapiland.deno.dev%2Fv2%2Fmodules%2Fexfetch&query=%24.latest_version "Deno Land: exfetch")](https://deno.land/x/exfetch)
 [![GitHub: hugoalh/exfetch-es](https://img.shields.io/github/v/release/hugoalh/exfetch-es?label=hugoalh/exfetch-es&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh/exfetch-es")](https://github.com/hugoalh/exfetch-es)
 [![JSR: @hugoalh/exfetch](https://img.shields.io/jsr/v/@hugoalh/exfetch?label=@hugoalh/exfetch&labelColor=F7DF1E&logo=jsr&logoColor=000000&style=flat "JSR: @hugoalh/exfetch")](https://jsr.io/@hugoalh/exfetch)
 [![NPM: @hugoalh/exfetch](https://img.shields.io/npm/v/@hugoalh/exfetch?label=@hugoalh/exfetch&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/exfetch")](https://www.npmjs.com/package/@hugoalh/exfetch)
@@ -20,22 +19,17 @@ An ECMAScript (JavaScript & TypeScript) module to extend `fetch`.
 
 ### 🎯 Targets
 
-|  | **Remote** | **JSR** | **NPM** |
-|:--|:--|:--|:--|
-| **[Bun](https://bun.sh/)** >= v1.1.0 | ❌ | ❓ | ✔️ |
-| **[Cloudflare Workers](https://workers.cloudflare.com/)** | ❌ | ❓ | ✔️ |
-| **[Deno](https://deno.land/)** >= v1.42.0 | ✔️ | ✔️ | ✔️ |
-| **[NodeJS](https://nodejs.org/)** >= v18.12.0 | ❌ | ❓ | ✔️ |
+| **Targets** | **Remote** | **JSR** | **NPM** |
+|:--|:-:|:-:|:-:|
+| **[Bun](https://bun.sh/)** >= v1.1.0 | ❌ | ✔️ | ✔️ |
+| **[Deno](https://deno.land/)** >= v2.1.0 | ✔️ | ✔️ | ✔️ |
+| **[NodeJS](https://nodejs.org/)** >= v20.9.0 | ❌ | ✔️ | ✔️ |
 
 > [!NOTE]
 > - It is possible to use this module in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
 
 ### #️⃣ Resources Identifier
 
-- **Remote - Deno Land:**
-  ```
-  https://deno.land/x/exfetch[@{Tag}]/mod.ts
-  ```
 - **Remote - GitHub Raw:**
   ```
   https://raw.githubusercontent.com/hugoalh/exfetch-es/{Tag}/mod.ts
@@ -62,7 +56,7 @@ An ECMAScript (JavaScript & TypeScript) module to extend `fetch`.
 
 ### 🛡️ Runtime Permissions
 
-- Network \[Deno: `net`\]
+- **Network (Deno: `net`):**
   - *Resources*
 
 ## 🧩 APIs
@@ -84,7 +78,6 @@ An ECMAScript (JavaScript & TypeScript) module to extend `fetch`.
 > [!NOTE]
 > - For the full or prettier documentation, can visit via:
 >   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/documentation_generator/)
->   - [Deno Land](https://deno.land/x/exfetch)
 >   - [JSR](https://jsr.io/@hugoalh/exfetch)
 
 ## ✍️ Examples
