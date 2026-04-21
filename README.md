@@ -2,11 +2,12 @@
 
 [**⚖️** MIT](./LICENSE.md)
 
-[![GitHub: hugoalh/exfetch-es](https://img.shields.io/github/v/release/hugoalh/exfetch-es?label=hugoalh/exfetch-es&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh/exfetch-es")](https://github.com/hugoalh/exfetch-es)
-[![JSR: @hugoalh/exfetch](https://img.shields.io/jsr/v/@hugoalh/exfetch?label=@hugoalh/exfetch&labelColor=F7DF1E&logo=jsr&logoColor=000000&style=flat "JSR: @hugoalh/exfetch")](https://jsr.io/@hugoalh/exfetch)
-[![NPM: @hugoalh/exfetch](https://img.shields.io/npm/v/@hugoalh/exfetch?label=@hugoalh/exfetch&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/exfetch")](https://www.npmjs.com/package/@hugoalh/exfetch)
+🔗
+[GitHub](https://github.com/hugoalh/exfetch-es)
+[JSR](https://jsr.io/@hugoalh/exfetch)
+[NPM](https://www.npmjs.com/package/@hugoalh/exfetch)
 
-An ECMAScript (JavaScript & TypeScript) module to extend `fetch`.
+An ECMAScript module to extend `fetch`.
 
 ## 🌟 Features
 
@@ -19,40 +20,33 @@ An ECMAScript (JavaScript & TypeScript) module to extend `fetch`.
 
 ### 🎯 Targets
 
-| **Targets** | **Remote** | **JSR** | **NPM** |
+| **Runtime \\ Source** | **GitHub Raw** | **JSR** | **NPM** |
 |:--|:-:|:-:|:-:|
 | **[Bun](https://bun.sh/)** >= v1.1.0 | ❌ | ✔️ | ✔️ |
 | **[Deno](https://deno.land/)** >= v2.1.0 | ✔️ | ✔️ | ✔️ |
 | **[NodeJS](https://nodejs.org/)** >= v20.9.0 | ❌ | ✔️ | ✔️ |
 
-> [!NOTE]
-> - It is possible to use this module in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
-
 ### #️⃣ Resources Identifier
 
-- **Remote - GitHub Raw:**
+- GitHub Raw
   ```
   https://raw.githubusercontent.com/hugoalh/exfetch-es/{Tag}/mod.ts
   ```
-- **JSR:**
+- JSR
   ```
-  [jsr:]@hugoalh/exfetch[@{Tag}]
+  jsr:@hugoalh/exfetch[@{Tag}]
   ```
-- **NPM:**
+- NPM
   ```
-  [npm:]@hugoalh/exfetch[@{Tag}]
+  npm:@hugoalh/exfetch[@{Tag}]
   ```
 
 > [!NOTE]
-> - For usage of remote resources, it is recommended to import the entire module with the main path `mod.ts`, however it is also able to import part of the module with sub path if available, but do not import if:
->
->   - it's path has an underscore prefix (e.g.: `_foo.ts`, `_util/bar.ts`), or
->   - it is a benchmark or test file (e.g.: `foo.bench.ts`, `foo.test.ts`), or
->   - it's symbol has an underscore prefix (e.g.: `_bar`, `_foo`).
->
->   These elements are not considered part of the public API, thus no stability is guaranteed for them.
-> - For usage of JSR or NPM resources, it is recommended to import the entire module with the main entrypoint, however it is also able to import part of the module with sub entrypoint if available, please visit the [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub entrypoints.
-> - It is recommended to use this module with tag for immutability.
+> - It is recommended to include tag for immutability.
+> - These are not part of the public APIs hence should not be used:
+>   - Benchmark/Test file (e.g.: `example.bench.ts`, `example.test.ts`).
+>   - Entrypoint name or path include any underscore prefix (e.g.: `_example.ts`, `foo/_example.ts`).
+>   - Identifier/Namespace/Symbol include any underscore prefix (e.g.: `_example`, `Foo._example`).
 
 ### 🛡️ Runtime Permissions
 
@@ -77,7 +71,7 @@ An ECMAScript (JavaScript & TypeScript) module to extend `fetch`.
 
 > [!NOTE]
 > - For the full or prettier documentation, can visit via:
->   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/documentation_generator/)
+>   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/doc/)
 >   - [JSR](https://jsr.io/@hugoalh/exfetch)
 
 ## ✍️ Examples
