@@ -4,8 +4,8 @@
 
 🔗
 [GitHub](https://github.com/hugoalh/exfetch-es)
-[JSR](https://jsr.io/@hugoalh/exfetch)
-[NPM](https://www.npmjs.com/package/@hugoalh/exfetch)
+● [JSR](https://jsr.io/@hugoalh/exfetch)
+● [NPM](https://www.npmjs.com/package/@hugoalh/exfetch)
 
 An ECMAScript module to extend `fetch`.
 
@@ -50,8 +50,7 @@ An ECMAScript module to extend `fetch`.
 
 ### 🛡️ Runtime Permissions
 
-- **Network (Deno: `net`):**
-  - *Resources*
+- Network (Deno: `net`)
 
 ## 🧩 APIs
 

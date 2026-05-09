@@ -508,8 +508,7 @@ export class ExFetch {
 	 * 
 	 * > **🛡️ Runtime Permissions**
 	 * > 
-	 * > - **Network (Deno: `net`):**
-	 * >   - *Resources*
+	 * > - Network (Deno: `net`)
 	 * @param {string | URL} input URL of the resource.
 	 * @param {RequestInit} [init] Custom setting that apply to the request.
 	 * @returns {Promise<Response>} Response.
@@ -655,8 +654,7 @@ export class ExFetch {
 	 * 
 	 * > **🛡️ Runtime Permissions**
 	 * > 
-	 * > - **Network (Deno: `net`):**
-	 * >   - *Resources*
+	 * > - Network (Deno: `net`)
 	 * @param {string | URL} input URL of the first page of the resources.
 	 * @param {RequestInit} init Custom setting that apply to each request.
 	 * @returns {Promise<Response[]>} Responses.
@@ -705,8 +703,7 @@ export default ExFetch;
  * 
  * > **🛡️ Runtime Permissions**
  * > 
- * > - **Network (Deno: `net`):**
- * >   - *Resources*
+ * > - Network (Deno: `net`)
  * @param {string | URL} input URL of the resource.
  * @param {RequestInit} init Custom setting that apply to the request.
  * @param {ExFetchOptions} [options={}] Options.
@@ -720,8 +717,7 @@ export function exFetch(input: string | URL, init?: RequestInit, options: ExFetc
  * 
  * > **🛡️ Runtime Permissions**
  * > 
- * > - **Network (Deno: `net`):**
- * >   - *Resources*
+ * > - Network (Deno: `net`)
  * @param {string | URL} input URL of the first page of the resources.
  * @param {RequestInit} init Custom setting that apply to each request.
  * @param {ExFetchOptions} [options={}] Options.
